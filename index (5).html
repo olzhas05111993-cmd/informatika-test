@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Тест по информатике</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#f6f7f9;--card:#fff;--ink:#1c2430;--mute:#5d6877;--line:#d5dae1;--acc:#0f6b6b;--accink:#fff;--sel:#dff1f0;--bad:#b3261e;--badbg:#fdeceb}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14181e;--card:#1d232b;--ink:#e8ecf1;--mute:#9aa5b3;--line:#323b47;--acc:#4fc3c0;--accink:#0b1a1a;--sel:#1f3a3a;--bad:#ff8a80;--badbg:#3a1d1b}}
+:root[data-theme="dark"]{--bg:#14181e;--card:#1d232b;--ink:#e8ecf1;--mute:#9aa5b3;--line:#323b47;--acc:#4fc3c0;--accink:#0b1a1a;--sel:#1f3a3a;--bad:#ff8a80;--badbg:#3a1d1b}
+html{height:100%}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font:17px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;-webkit-user-select:none;user-select:none}
+main{max-width:720px;margin:0 auto;padding:20px 16px 40px}
+h1{font-size:1.5rem;margin:0 0 6px}p{margin:8px 0}.mute{color:var(--mute);font-size:.92rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px}
+input[type=text],input[type=password]{width:100%;box-sizing:border-box;font:inherit;padding:11px 12px;margin:6px 0 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);-webkit-user-select:text;user-select:text}
+button{font:inherit;cursor:pointer;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:10px 16px}
+button.p{background:var(--acc);color:var(--accink);border-color:var(--acc);font-weight:600}
+button:focus-visible,input:focus-visible,.o:focus-within{outline:3px solid var(--acc);outline-offset:2px}
+button:disabled{opacity:.45;cursor:default}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
+#tm{font-variant-numeric:tabular-nums;font-weight:700}#tm.low{color:var(--bad)}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin-bottom:16px}.bar i{display:block;height:100%;background:var(--acc);width:0}
+.q{font-size:1.12rem;font-weight:600;margin:0 0 14px}
+.o{display:flex;gap:12px;align-items:flex-start;padding:12px;margin:8px 0;border:1px solid var(--line);border-radius:8px;cursor:pointer}
+.o.s{background:var(--sel);border-color:var(--acc)}.o b{min-width:1.4em}.o input{position:absolute;opacity:0}
+.nav{display:flex;justify-content:space-between;gap:10px;margin-top:16px}
+.map{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}.map button{padding:4px 0;width:36px;font-size:.85rem}.map .d{background:var(--sel);border-color:var(--acc)}.map .c{outline:2px solid var(--ink)}
+#lock{position:fixed;inset:0;z-index:99;background:var(--badbg);display:none;align-items:center;justify-content:center;padding:20px}
+#lock .card{max-width:420px;width:100%;border-color:var(--bad)}#lock h2{color:var(--bad);margin:0 0 8px}
+.err{color:var(--bad);min-height:1.4em;margin:0}
+table{border-collapse:collapse;width:100%}td{padding:6px 4px;border-bottom:1px solid var(--line)}
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:no-preference){.bar i{transition:width .25s}}
+</style></head><body>
+<main>
+<section id="sStart" class="card">
+<h1>Тест по информатике</h1>
+<p class="mute">Windows и антивирусная защита, Интернет, Excel. 40 вопросов, 35 минут.</p>
+<p>Во время теста нельзя сворачивать окно, переключать вкладки и выходить из полноэкранного режима. Тест сразу заблокируется, и продолжить его можно только по коду преподавателя. Все нарушения записываются.</p>
+<label>Фамилия и имя<input id="nm" type="text" autocomplete="off"></label>
+<label>Группа<input id="gr" type="text" autocomplete="off"></label>
+<button class="p" id="go">Начать тест</button>
+<p class="err" id="e0"></p>
+</section>
+<section id="sTest" hidden>
+<div class="top"><span class="mute" id="who"></span><span id="tm">35:00</span></div>
+<div class="bar"><i id="pb"></i></div>
+<div class="card"><p class="mute" id="qn"></p><p class="q" id="qt"></p><div id="op"></div>
+<div class="nav"><button id="pv">Назад</button><button id="nx" class="p">Дальше</button></div></div>
+<div class="map" id="map"></div>
+</section>
+<section id="sEnd" class="card" hidden>
+<h1>Тест завершён</h1>
+<p id="res" style="font-size:1.3rem;font-weight:700"></p>
+<p id="inf" class="mute"></p>
+<div id="viol"></div>
+<p class="mute">Покажите этот экран преподавателю.</p>
+<label class="mute">Код преподавателя для пересдачи<input id="rc" type="password" autocomplete="off"></label>
+<button id="rs">Сбросить результат</button> <span class="err" id="e2"></span>
+</section>
+</main>
+<div id="lock" role="alertdialog" aria-modal="true"><div class="card">
+<h2>Тест заблокирован</h2>
+<p id="lr"></p>
+<p class="mute">Позовите преподавателя. Таймер продолжает идти.</p>
+<input id="uc" type="password" placeholder="Код преподавателя" autocomplete="off">
+<button class="p" id="ub">Разблокировать</button>
+<p class="err" id="e1"></p>
+</div></div>
+<script>
+var Q=[["Что нужно сделать при появлении запаха гари или дыма от компьютера?","Отключить питание и сообщить преподавателю",["Продолжить работу","Залить водой","Закрыть окно программы"]],["Что запрещается делать в кабинете информатики?","Трогать провода и розетки мокрыми руками",["Сидеть на расстоянии от монитора","Включать компьютер по указанию преподавателя","Делать перерывы в работе"]],["Какая комбинация клавиш открывает Диспетчер задач в Windows?","Ctrl+Shift+Esc",["Alt+F4","Win+D","Ctrl+Z"]],["Что такое компьютерный вирус?","Вредоносная программа, способная размножаться и наносить вред",["Неисправность монитора","Устройство ввода информации","Текстовый документ"]],["Какая программа предназначена для обнаружения и удаления вирусов?","Антивирус",["Проводник","Калькулятор","Блокнот"]],["Какая мера защищает информацию от несанкционированного доступа?","Установка пароля",["Увеличение яркости экрана","Переименование файла","Дефрагментация диска"]],["Прообразом Интернета была сеть:","ARPANET",["Wi-Fi","Bluetooth","Ethernet"]],["Интернет — это:","Всемирная система объединённых компьютерных сетей",["Одна большая программа","Один мощный сервер","Вид электронной почты"]],["Программа для просмотра веб-страниц называется:","Браузер",["Текстовый редактор","Табличный процессор","Антивирус"]],["Основной набор протоколов, на которых работает Интернет:","TCP/IP",["USB","HDMI","BIOS"]],["IP-адрес версии IPv4 состоит из:","Четырёх чисел от 0 до 255, разделённых точками",["Букв латинского алфавита","Двух чисел, разделённых двоеточием","Названия сайта"]],["Какой IP-адрес записан правильно?","192.168.1.1",["256.10.1.1","192.168.1","192.168.1.1.1"]],["Служба DNS предназначена для:","Преобразования доменных имён в IP-адреса",["Защиты от вирусов","Отправки электронной почты","Сжатия файлов"]],["Топология, в которой все компьютеры подключены к центральному устройству:","Звезда",["Шина","Кольцо","Ячеистая"]],["Сеть, объединяющая компьютеры в пределах одного здания, называется:","Локальная (LAN)",["Глобальная","Региональная","Спутниковая"]],["В топологии «шина» все компьютеры подключены:","К общему кабелю",["К центральному коммутатору","Друг к другу по кругу","Каждый к каждому"]],["Какой символ обязательно содержится в адресе электронной почты?","@",["#","&","%"]],["Какой адрес электронной почты записан правильно?","user@mail.kz",["user.mail.kz","user@@mail.kz","@user mail.kz"]],["Вложение в электронном письме — это:","Файл, прикреплённый к письму",["Тема письма","Адрес получателя","Подпись отправителя"]],["Как найти в поисковой системе точную фразу?","Записать фразу в кавычках",["Записать её заглавными буквами","Поставить перед ней знак «=»","Добавить слово «точно»"]],["Признаком защищённого соединения с сайтом является:","Протокол https и значок замка в адресной строке",["Протокол http без значков","Много рекламы на странице","Яркий дизайн сайта"]],["Фишинг — это:","Мошенничество с целью выманить логины и пароли",["Вид компьютерной игры","Способ ускорения Интернета","Программа для поиска информации"]],["Excel относится к программам:","Табличные процессоры",["Текстовые редакторы","Графические редакторы","Антивирусы"]],["Файл Excel называется:","Рабочая книга",["Презентация","Папка","Архив"]],["Стандартное расширение файла современной книги Excel:","xlsx",["docx","pptx","txt"]],["Пересечение строки и столбца в Excel называется:","Ячейка",["Диапазон","Лист","Формула"]],["Как называется ячейка, расположенная в столбце C и строке 5?","C5",["5C","C-5","C:5"]],["Строка формул служит для:","Ввода и редактирования содержимого ячейки",["Выбора шрифта","Печати документа","Сохранения файла"]],["Какой формат нужно выбрать для записи 15.11.2026?","Дата",["Числовой","Текстовый","Процентный"]],["Какой формат отображает число вместе с символом валюты (например, ₸)?","Денежный",["Общий","Дробный","Дата"]],["Если введённые данные по умолчанию выравниваются по левому краю, Excel воспринимает их как:","Текст",["Число","Формулу","Дату"]],["Любая формула в Excel начинается со знака:","=",["+","#","@"]],["Каков результат формулы =2+3*4?","14",["20","24","9"]],["Какая формула вычисляет сумму значений ячеек от A1 до A5?","=СУММ(A1:A5)",["=A1+A5","=СУММ(A1;A5)","СУММ(A1-A5)"]],["Как создать формулу способом «указание»?","Ввести = и щёлкать мышью по нужным ячейкам",["Скопировать формулу из Word","Ввести формулу без знака =","Ввести формулу в строку состояния"]],["Какая запись является абсолютной ссылкой?","$A$1",["A1","A$","A1:A$"]],["Какая клавиша переключает тип ссылки (A1, $A$1, A$1, $A1)?","F4",["F2","F5","F12"]],["Формула =A1*2 из ячейки B1 скопирована в B2. Как она выглядит теперь?","=A2*2",["=A1*2","=B2*2","=$A$1*2"]],["Что нужно потянуть, чтобы скопировать формулу вниз (автозаполнение)?","Маркер заполнения в правом нижнем углу ячейки",["Заголовок столбца","Номер строки","Название листа"]],["Какая команда позволяет объединить несколько ячеек в одну?","Объединить и поместить в центре",["Перенос текста","Заливка","Условное форматирование"]]];
+var HASH="a388f562e286fdf28986f9253579f4d096446e01dd0c771996a51ff11b390fa2",KEY="okt_test_v1",TOTAL=2100,L=["А","Б","В","Г"];
+var S=null,locked=false,fsOn=false,tick=null,$=function(i){return document.getElementById(i)};
+function sh(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function load(){try{return JSON.parse(localStorage.getItem(KEY))}catch(e){return null}}
+function sha(s){return crypto.subtle.digest("SHA-256",new TextEncoder().encode(s)).then(function(b){return Array.prototype.map.call(new Uint8Array(b),function(x){return("0"+x.toString(16)).slice(-2)}).join("")})}
+function hm(){return new Date().toLocaleTimeString("ru-RU",{hour:"2-digit",minute:"2-digit"})}
+function show(id){["sStart","sTest","sEnd"].forEach(function(x){$(x).hidden=x!==id})}
+function start(){
+ var n=$("nm").value.trim(),g=$("gr").value.trim();
+ if(n.length<3||!g){$("e0").textContent="Введите фамилию, имя и группу.";return}
+ var ord=sh(Q.map(function(_,i){return i})),opts={};
+ ord.forEach(function(i){var o=[[Q[i][1],1]].concat(Q[i][2].map(function(w){return[w,0]}));opts[i]=sh(o)});
+ S={n:n,g:g,ord:ord,opts:opts,a:{},cur:0,end:Date.now()+TOTAL*1000,v:[],done:false};
+ save();begin(true)}
+function begin(fs){
+ show("sTest");$("who").textContent=S.n+", "+S.g;
+ if(fs&&document.documentElement.requestFullscreen){document.documentElement.requestFullscreen().then(function(){fsOn=true}).catch(function(){})}
+ render();clearInterval(tick);tick=setInterval(clock,1000);clock()}
+function clock(){
+ var r=Math.max(0,Math.round((S.end-Date.now())/1000));
+ $("tm").textContent=Math.floor(r/60)+":"+("0"+r%60).slice(-2);$("tm").className=r<300?"low":"";
+ if(r<=0)finish()}
+function render(){
+ var i=S.ord[S.cur],o=S.opts[i];
+ $("qn").textContent="Вопрос "+(S.cur+1)+" из "+Q.length;$("qt").textContent=Q[i][0];
+ $("pb").style.width=(Object.keys(S.a).length/Q.length*100)+"%";
+ var h=$("op");h.innerHTML="";
+ o.forEach(function(x,k){
+  var l=document.createElement("label");l.className="o"+(S.a[i]===k?" s":"");
+  var r=document.createElement("input");r.type="radio";r.name="a";r.checked=S.a[i]===k;
+  r.onchange=function(){S.a[i]=k;save();render()};
+  var b=document.createElement("b");b.textContent=L[k]+")";var t=document.createElement("span");t.textContent=x[0];
+  l.appendChild(r);l.appendChild(b);l.appendChild(t);h.appendChild(l)});
+ $("pv").disabled=S.cur===0;$("nx").textContent=S.cur===Q.length-1?"Завершить":"Дальше";
+ var m=$("map");m.innerHTML="";
+ S.ord.forEach(function(q,k){var b=document.createElement("button");b.textContent=k+1;
+  b.className=(S.a[q]!==undefined?"d ":"")+(k===S.cur?"c":"");b.onclick=function(){S.cur=k;save();render()};m.appendChild(b)})}
+function finish(force){
+ var un=Q.length-Object.keys(S.a).length;
+ if(!force&&un>0&&S.end-Date.now()>0&&!S.w){S.w=1;$("qn").textContent="Не отвечено вопросов: "+un+". Нажмите «Завершить» ещё раз.";return}
+ $("lock").style.display="none";locked=false;
+ clearInterval(tick);S.done=true;save();
+ if(document.fullscreenElement&&document.exitFullscreen){fsOn=false;document.exitFullscreen().catch(function(){})}
+ var sc=0;Q.forEach(function(_,i){if(S.a[i]!==undefined&&S.opts[i][S.a[i]][1])sc++});
+ $("res").textContent=S.n+", "+S.g+": "+sc+" из "+Q.length+" ("+Math.round(sc/Q.length*100)+"%)";
+ $("inf").textContent="Отвечено: "+Object.keys(S.a).length+" из "+Q.length+". Нарушений: "+S.v.length+".";
+ $("viol").innerHTML=S.v.length?"<table>"+S.v.map(function(x){return"<tr><td>"+x+"</td></tr>"}).join("")+"</table>":"";
+ show("sEnd")}
+function lock(why){
+ if(!S||S.done||locked||$("sTest").hidden)return;
+ locked=true;S.v.push(hm()+" "+why);save();
+ $("lr").textContent="Причина: "+why+". Нарушений: "+S.v.length+".";$("uc").value="";$("e1").textContent="";
+ $("lock").style.display="flex";$("uc").focus()}
+function unlock(){
+ sha($("uc").value.trim()).then(function(h){
+  if(h===HASH){locked=false;$("lock").style.display="none";
+   if(fsOn||document.documentElement.requestFullscreen){document.documentElement.requestFullscreen().then(function(){fsOn=true}).catch(function(){})}}
+  else $("e1").textContent="Неверный код."})}
+document.addEventListener("visibilitychange",function(){if(document.hidden)lock("окно свёрнуто или вкладка переключена")});
+window.addEventListener("blur",function(){lock("окно потеряло фокус")});
+document.addEventListener("fullscreenchange",function(){if(fsOn&&!document.fullscreenElement){fsOn=false;lock("выход из полноэкранного режима")}});
+["contextmenu","copy","cut","paste","dragstart"].forEach(function(e){document.addEventListener(e,function(ev){if(!/INPUT/.test(ev.target.tagName)||e==="contextmenu")ev.preventDefault()})});
+document.addEventListener("keydown",function(e){if(e.key==="PrintScreen"||(e.ctrlKey&&/^[cpsu]$/i.test(e.key)&&!/INPUT/.test(e.target.tagName)))e.preventDefault()});
+$("go").onclick=start;$("ub").onclick=unlock;$("uc").onkeydown=function(e){if(e.key==="Enter")unlock()};
+$("pv").onclick=function(){if(S.cur>0){S.cur--;save();render()}};
+$("nx").onclick=function(){if(S.cur<Q.length-1){S.cur++;save();render()}else finish()};
+$("rs").onclick=function(){sha($("rc").value.trim()).then(function(h){if(h===HASH){try{localStorage.removeItem(KEY)}catch(e){}location.reload()}else $("e2").textContent="Неверный код."})};
+var old=load();
+if(old){S=old;if(S.done){finish(true)}else{begin(false);lock("страница была перезагружена или закрыта")}}
+</script></body></html>
